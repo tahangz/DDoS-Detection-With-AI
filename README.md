@@ -2,6 +2,8 @@
 
 An end-to-end system for real-time detection of Distributed Denial of Service (DDoS) attacks using machine learning. Built using a **Random Forest classifier**, a **Django REST API**, and a **React dashboard frontend**. The model is trained on the CICDDoS2019 dataset and detects multiple DDoS types with over 99% accuracy.
 
+![Dashboard](./Dashboard_screenshot.png)
+
 ## 📌 Table of Contents
 
 - [Project Overview](#project-overview)
