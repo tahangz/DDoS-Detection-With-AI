@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8 text-center">Network Traffic Analysis</h1>
+        
+        {% if error %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ error }}</span>
+        </div>
+        {% endif %}
+
+        {% if prediction %}
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4">Analysis Results</h2>
+            <p class="text-lg mb-2">{{ prediction }}</p>
+            
+            {% if debug_info %}
+            <div class="mt-4">
+                <h3 class="font-medium mb-2">Probabilities:</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-3 bg-gray-100 rounded">
+                        <p class="text-sm text-gray-600">Normal Traffic</p>
+                        <p class="text-lg font-medium">{{ debug_info.probabilities.normal|floatformat:2 }}%</p>
+                    </div>
+                    <div class="p-3 bg-gray-100 rounded">
+                        <p class="text-sm text-gray-600">Attack Traffic</p>
+                        <p class="text-lg font-medium">{{ debug_info.probabilities.attack|floatformat:2 }}%</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="bg-white rounded-lg shadow-lg p-6">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Packet Length Min</label>
+                    <input type="number" name="Bwd Packet Length Min" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Packet Length Std</label>
+                    <input type="number" name="Bwd Packet Length Std" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Init Win bytes forward</label>
+                    <input type="number" name="Init Win bytes forward" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Init Win bytes backward</label>
+                    <input type="number" name="Init Win bytes backward" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd PSH Flags</label>
+                    <input type="number" name="Fwd PSH Flags" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Average Packet Size</label>
+                    <input type="number" name="Average Packet Size" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">PSH Flag Count</label>
+                    <input type="number" name="PSH Flag Count" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Packets/s</label>
+                    <input type="number" name="Bwd Packets/s" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Header Length</label>
+                    <input type="number" name="Bwd Header Length" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Packet Length Mean</label>
+                    <input type="number" name="Bwd Packet Length Mean" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd Header Length</label>
+                    <input type="number" name="Fwd Header Length" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Packet Length Std</label>
+                    <input type="number" name="Packet Length Std" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Packet Length Mean</label>
+                    <input type="number" name="Packet Length Mean" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Avg Bwd Segment Size</label>
+                    <input type="number" name="Avg Bwd Segment Size" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd Header Length 1</label>
+                    <input type="number" name="Fwd Header Length 1" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">min seg size forward</label>
+                    <input type="number" name="min seg size forward" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Bwd Packet Length Max</label>
+                    <input type="number" name="Bwd Packet Length Max" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Packet Length Variance</label>
+                    <input type="number" name="Packet Length Variance" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd Packet Length Max</label>
+                    <input type="number" name="Fwd Packet Length Max" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd Packet Length Mean</label>
+                    <input type="number" name="Fwd Packet Length Mean" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Flow Bytes/s</label>
+                    <input type="number" name="Flow Bytes/s" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fwd IAT Min</label>
+                    <input type="number" name="Fwd IAT Min" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Total Length of Fwd Packets</label>
+                    <input type="number" name="Total Length of Fwd Packets" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Flow IAT Mean</label>
+                    <input type="number" name="Flow IAT Mean" step="any" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-between">
+                <button type="button" onclick="fillRandomValues()" 
+                        class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                    Fill Random Values
+                </button>
+                <button type="submit" 
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Analyze Traffic
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function fillRandomValues() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                const name = input.name;
+                let min, max;
+                
+                switch(name) {
+                    case 'Bwd Packet Length Min':
+                        min = 100; max = 1000;
+                        break;
+                    case 'Bwd Packet Length Std':
+                        min = 500; max = 5000;
+                        break;
+                    case 'Init Win bytes forward':
+                    case 'Init Win bytes backward':
+                        min = 32768; max = 65535;
+                        break;
+                    case 'Fwd PSH Flags':
+                        min = 5; max = 20;
+                        break;
+                    case 'Average Packet Size':
+                        min = 1000; max = 5000;
+                        break;
+                    case 'PSH Flag Count':
+                        min = 5; max = 25;
+                        break;
+                    case 'Bwd Packets/s':
+                        min = 10000; max = 100000;
+                        break;
+                    case 'Bwd Header Length':
+                    case 'Fwd Header Length':
+                    case 'Fwd Header Length 1':
+                        min = 1000; max = 5000;
+                        break;
+                    case 'Bwd Packet Length Mean':
+                    case 'Packet Length Mean':
+                    case 'Fwd Packet Length Mean':
+                        min = 1000; max = 5000;
+                        break;
+                    case 'Packet Length Std':
+                        min = 500; max = 5000;
+                        break;
+                    case 'Avg Bwd Segment Size':
+                        min = 1000; max = 5000;
+                        break;
+                    case 'min seg size forward':
+                        min = 100; max = 1000;
+                        break;
+                    case 'Bwd Packet Length Max':
+                    case 'Fwd Packet Length Max':
+                        min = 2000; max = 10000;
+                        break;
+                    case 'Packet Length Variance':
+                        min = 100000; max = 1000000;
+                        break;
+                    case 'Flow Bytes/s':
+                        min = 1000000; max = 10000000;
+                        break;
+                    case 'Fwd IAT Min':
+                    case 'Flow IAT Mean':
+                        min = 0.0001; max = 0.001;
+                        break;
+                    case 'Total Length of Fwd Packets':
+                        min = 100000; max = 1000000;
+                        break;
+                    default:
+                        min = 0; max = 1000;
+                }
+                
+                const value = min + Math.random() * (max - min);
+                input.value = value.toFixed(4);
+            });
+        }
+    </script>
+</body>
+</html>
