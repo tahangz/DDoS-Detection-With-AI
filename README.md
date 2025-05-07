@@ -87,5 +87,51 @@ Implemented using Django REST Framework.
 {
   "feature1": value,
   "feature2": value,
-  ...
 }
+````
+ ##📊 Frontend Dashboard
+Developed using React, the dashboard includes:
+
+📈 Live probability charts
+
+🛑 Real-time DDoS alerts
+
+📡 Protocol-wise traffic visualization
+
+API requests are made via Axios to /api/predict/ to get live prediction scores.
+
+ ##⚙️ Installation & Setup
+Clone the repo
+
+```bash
+
+git clone https://github.com/tahangz/DDoS-Detection-With-AI
+cd DDoS-Detection-With-AI
+Backend Setup
+```
+```bash
+
+cd backend_django
+pip install -r requirements.txt
+python manage.py runserver
+Frontend Setup
+```
+```bash
+
+cd ../dashboard_react
+npm install
+npm start
+```
+ ##📈Results
+
+Metric	Value
+Accuracy	99.34%
+Precision	99.34%
+Recall	99.34%
+F1 Score	99.33%
+ROC AUC	99.27%
+
+ ##👥 Contributors
+Taha Naguez — GitHub
+
+Aymen Masmoudi — ENSI
