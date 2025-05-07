@@ -124,12 +124,14 @@ npm start
 ```
  ##📈Results
 
-Metric	Value
-Accuracy	99.34%
-Precision	99.34%
-Recall	99.34%
-F1 Score	99.33%
-ROC AUC	99.27%
+| Metric      | 	Value         |
+|------------------|------------------------|
+|Accuracy       | 99.34% |
+| Precision	  | 99.34% |
+|Recall	     | 99.34%|
+| F1 Score	      | 99.33% |
+| ROC AUC	       | 99.27% |
+
 
  ##👥 Contributors
 Taha Naguez — GitHub
