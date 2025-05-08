@@ -56,6 +56,9 @@ We use the **CICDDoS2019** dataset from the Canadian Institute for Cybersecurity
 - Multiclass DDoS traffic (7 attack types + Benign)
 - Over 150K labeled flow records
 - Protocols: TCP, UDP, ICMP, etc.
+  
+  ![dataset1](./dataset1.png)
+  ![dataset2](./dataset2.png)
 
 ---
 
