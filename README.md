@@ -79,6 +79,7 @@ We use the **CICDDoS2019** dataset from the Canadian Institute for Cybersecurity
   - F1 Score: `99.33%`
   - ROC AUC (OvR): `99.27%`
 
+![model](./Random_Forest.png)
 ---
 
 ## 🔌 Backend API
